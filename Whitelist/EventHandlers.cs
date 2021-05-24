@@ -18,7 +18,8 @@ namespace Whitelist
         }
         public void OnPreAuthenticating(PreAuthenticatingEventArgs ev)
         {
-            if (Plugin.whitelistEnabled && ev.Flags == 0 && !Plugin.whitelistedPlayers.Contains(ev.UserId))
+
+            if (Plugin.whitelistEnabled && !((ev.Flags & (byte)CentralAuthPreauthFlags.IgnoreWhitelist) == (byte)CentralAuthPreauthFlags.IgnoreWhitelist) && !Plugin.whitelistedPlayers.Contains(ev.UserId))
             {
                 ev.Reject(Plugin.Singleton.Config.RejectReason, false);
             }
